@@ -19,7 +19,10 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.joinButton}>
             <Text style={styles.headerButtonText}>JOIN</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.donateButton}>
+          <TouchableOpacity 
+            style={styles.donateButton}
+            onPress={() => router.push('/donate')}
+          >
             <Text style={styles.headerButtonText}>DONATE</Text>
           </TouchableOpacity>
         </View>
