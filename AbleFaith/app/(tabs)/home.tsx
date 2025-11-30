@@ -12,7 +12,10 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <View style={styles.logoContainer}>
           <View style={styles.triangleLogo}>
-            <Text style={styles.logoText}>△</Text>
+            <Image
+              source={require('../../assets/images/logo.png')}
+              style={styles.logoImage}
+            />
           </View>
         </View>
         <View style={styles.headerButtons}>
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   donateButton: {
-    backgroundColor: '#A8D5BA',
+    backgroundColor: '#C5E1A5',
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 20,
@@ -181,5 +184,10 @@ const styles = StyleSheet.create({
   },
   involvedBox: {
     backgroundColor: '#FFAB91',
+  },
+  logoImage: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
   },
 });

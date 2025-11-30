@@ -33,12 +33,17 @@ export default function DonateScreen() {
         </View>
       </TouchableOpacity>
 
-      <Text style={styles.description}>
-        Able Faith is all about growth and empowerement for those with neurological disorders.
-      </Text>
-      <Text style={styles.description}>
-        Check out our QR code for more info on how you can help.
-      </Text>
+      <View style={styles.textBox}>
+        <Text style={styles.description}>
+          Able Faith is all about growth and empowerement for those with neurological disorders.
+        </Text>
+      </View>
+
+      <View style={styles.textBox}>
+        <Text style={styles.description}>
+          Check out our QR code for more info on how you can help.
+        </Text>
+      </View>
     </ScrollView>
   );
 }
@@ -57,14 +62,22 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   description: {
-    fontSize: 16,
+    fontFamily: 'Merriweather',
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '#000',
     alignSelf: 'center',
     lineHeight: 24,
     marginBottom: 15,
+    textAlign: 'center',
   },
   qrContainer: {
     alignSelf: 'center',
     marginBottom: 20,
+  },
+  textBox: {
+    alignSelf: 'center',
+    alignContent: 'center',
+    width: 300,
   },
 });
