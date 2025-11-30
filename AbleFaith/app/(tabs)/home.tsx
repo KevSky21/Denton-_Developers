@@ -11,12 +11,15 @@ export default function HomeScreen() {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <View style={styles.triangleLogo}>
+          <TouchableOpacity 
+            style={styles.triangleLogo}
+            onPress={() => router.push('/home')}
+          >
             <Image
               source={require('../../assets/images/logo.png')}
               style={styles.logoImage}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.headerButtons}>
           <TouchableOpacity style={styles.joinButton}>
