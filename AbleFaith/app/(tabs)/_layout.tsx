@@ -28,7 +28,7 @@ export default function RootLayout() {
       <Stack.Screen name="events" options={{ title: 'Events' }} />
       <Stack.Screen name="about-us" options={{ title: 'About Us' }} />
       <Stack.Screen name="get-involved" options={{ title: 'Get Involved' }} />
-      <Stack.Screen name="donate" options={{ title: 'Donate' }} />
+      <Stack.Screen name="donate" options={{ title: 'Donate', headerShown: false }} />
     </Stack>
   );
 }

@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import CustomHeader from '../../components/custom-header';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -9,30 +10,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <TouchableOpacity 
-            style={styles.triangleLogo}
-            onPress={() => router.push('/home')}
-          >
-            <Image
-              source={require('../../assets/images/logo.png')}
-              style={styles.logoImage}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.headerButtons}>
-          <TouchableOpacity style={styles.joinButton}>
-            <Text style={styles.headerButtonText}>JOIN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.donateButton}
-            onPress={() => router.push('/donate')}
-          >
-            <Text style={styles.headerButtonText}>DONATE</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <CustomHeader/>
 
       {/* Welcome Section */}
       <View style={styles.welcomeSection}>

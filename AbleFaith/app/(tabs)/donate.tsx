@@ -3,6 +3,7 @@ import { HeaderTitle } from '@react-navigation/elements';
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import CustomHeader from '../../components/custom-header';
 
 export default function DonateScreen() {
   const donateURL = 'https://ablefaith.networkforgood.com/projects/245315-2025-help-able-faith-make-a-difference';
@@ -18,7 +19,9 @@ export default function DonateScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <CustomHeader/>
+
       <Text style={styles.title}>Donate</Text>
 
       <TouchableOpacity onPress={handlePress}>
@@ -44,7 +47,7 @@ export default function DonateScreen() {
           Check out our QR code for more info on how you can help.
         </Text>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -60,6 +63,7 @@ const styles = StyleSheet.create({
     color: '#EF5C1C',
     alignSelf: 'center',
     marginBottom: 15,
+    marginTop: 15,
   },
   description: {
     fontFamily: 'Merriweather',
