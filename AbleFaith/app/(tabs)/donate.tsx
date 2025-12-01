@@ -1,5 +1,4 @@
 // app/donation.tsx
-import { HeaderTitle } from '@react-navigation/elements';
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -19,35 +18,37 @@ export default function DonateScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <CustomHeader/>
 
-      <Text style={styles.title}>Donate</Text>
+      <View style={styles.pageContainer}>
+        <Text style={styles.title}>Donate</Text>
 
-      <TouchableOpacity onPress={handlePress}>
-        <View style={styles.qrContainer}>
-          <QRCode
-            value={donateURL}
-            size={200}
-            color='#000'
-            backgroundColor='#fff'
-          >
-          </QRCode>
+        <TouchableOpacity onPress={handlePress}>
+          <View style={styles.qrContainer}>
+            <QRCode
+              value={donateURL}
+              size={200}
+              color='#000'
+              backgroundColor='#fff'
+            >
+            </QRCode>
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.textBox}>
+          <Text style={styles.description}>
+            Able Faith is all about growth and empowerement for those with neurological disorders.
+          </Text>
         </View>
-      </TouchableOpacity>
 
-      <View style={styles.textBox}>
-        <Text style={styles.description}>
-          Able Faith is all about growth and empowerement for those with neurological disorders.
-        </Text>
+        <View style={styles.textBox}>
+          <Text style={styles.description}>
+            Check out our QR code for more info on how you can help.
+          </Text>
+        </View>
       </View>
-
-      <View style={styles.textBox}>
-        <Text style={styles.description}>
-          Check out our QR code for more info on how you can help.
-        </Text>
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
   },
   title: {
     fontSize: 35,
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     color: '#EF5C1C',
     alignSelf: 'center',
     marginBottom: 15,
-    marginTop: 15,
   },
   description: {
     fontFamily: 'Merriweather',
@@ -84,4 +83,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     width: 300,
   },
+  pageContainer: {
+    flex: 1,
+    padding: 20,
+  }
 });

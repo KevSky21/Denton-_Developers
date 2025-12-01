@@ -1,3 +1,4 @@
+// custom header
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -9,7 +10,7 @@ export default function CustomHeader() {
             <View style={styles.logoContainer}>
               <TouchableOpacity 
                 style={styles.triangleLogo}
-                onPress={() => router.push('/home')}
+                onPress={() => router.replace('/home')}
               >
                 <Image
                   source={require('../assets/images/logo.png')}

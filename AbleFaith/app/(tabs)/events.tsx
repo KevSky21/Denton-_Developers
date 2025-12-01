@@ -1,15 +1,20 @@
 // app/events.tsx
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import CustomHeader from '../../components/custom-header';
 
 export default function EventsScreen() {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Upcoming Events</Text>
-      <Text style={styles.description}>
-        Stay updated with our latest events and activities.
-      </Text>
-      {/* Add your events content here */}
+      <CustomHeader/>
+
+      <View style={styles.pageContainer}>
+        <Text style={styles.title}>Upcoming Events</Text>
+        <Text style={styles.description}>
+          Stay updated with our latest events and activities.
+        </Text>
+        {/* Add your events content here */}
+      </View>
     </ScrollView>
   );
 }
@@ -18,7 +23,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
   },
   title: {
     fontSize: 28,
@@ -30,4 +34,8 @@ const styles = StyleSheet.create({
     color: '#666',
     lineHeight: 24,
   },
+  pageContainer: {
+    flex: 1,
+    padding: 20,
+  }
 });

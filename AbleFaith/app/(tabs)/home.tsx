@@ -29,28 +29,28 @@ export default function HomeScreen() {
       <View style={styles.grid}>
         <TouchableOpacity 
           style={[styles.gridItem, styles.programsBox]}
-          onPress={() => router.push('/programs')}
+          onPress={() => router.replace('/programs')}
         >
           <Text style={styles.gridText}>Programs</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
           style={[styles.gridItem, styles.eventsBox]}
-          onPress={() => router.push('/events')}
+          onPress={() => router.replace('/events')}
         >
           <Text style={styles.gridText}>Events</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
           style={[styles.gridItem, styles.aboutBox]}
-          onPress={() => router.push('/about-us')}
+          onPress={() => router.replace('/about-us')}
         >
           <Text style={styles.gridText}>About Us</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
           style={[styles.gridItem, styles.involvedBox]}
-          onPress={() => router.push('/get-involved')}
+          onPress={() => router.replace('/get-involved')}
         >
           <Text style={styles.gridText}>Get Involved</Text>
         </TouchableOpacity>
@@ -63,48 +63,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#5DC1E8',
-  },
-  logoContainer: {
-    width: 40,
-    height: 40,
-  },
-  triangleLogo: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontSize: 30,
-    color: '#5DC1E8',
-  },
-  headerButtons: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  joinButton: {
-    backgroundColor: '#FF9999',
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  donateButton: {
-    backgroundColor: '#C5E1A5',
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  headerButtonText: {
-    fontSize: 12,
-    fontWeight: '600',
   },
   welcomeSection: {
     paddingVertical: 30,
@@ -165,10 +123,5 @@ const styles = StyleSheet.create({
   },
   involvedBox: {
     backgroundColor: '#FFAB91',
-  },
-  logoImage: {
-    width: 40,
-    height: 40,
-    resizeMode: 'contain',
   },
 });
