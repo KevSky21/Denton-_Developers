@@ -12,7 +12,7 @@ interface EventItem {
 export default function EventPage() {
   const [selectedDate, setSelectedDate] = useState("2025-04-10");
 
-  // TEMP hard-coded events (later you can fetch these)
+  // Temporary events. will fetch later later
   const events: Record<string, EventItem[]> = {
     "2025-04-10": [
       { title: "Potluck", time: "2:00 PM", remind: true },
