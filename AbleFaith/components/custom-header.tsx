@@ -24,7 +24,7 @@ export default function CustomHeader() {
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.donateButton}
-                onPress={() => router.push('/donate')}
+                onPress={() => router.replace('/donate')}
               >
                 <Text style={styles.headerButtonText}>DONATE</Text>
               </TouchableOpacity>
