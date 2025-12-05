@@ -1,52 +1,89 @@
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import { ScrollView, View, Text, StyleSheet, Image } from "react-native";
 
 export default function AboutUs() {
+  const sponsorLogos = [
+    require('../../assets/images/about-us-images/wingstop.png'),
+    require('../../assets/images/about-us-images/benton-luttrell.png'),
+    require('../../assets/images/about-us-images/fumct.png'),
+    require('../../assets/images/about-us-images/one.png'),
+  ];
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       
       {/* About Us Header */}
       <Text style={styles.sectionTitle}>About us:</Text>
+
       {/* About Us images */}
-     <View style={styles.blueImageBackground}>
-        {/*<View style={styles.largeImagePlaceholder} />*/}
-         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+      <View style={styles.blueImageBackground}>
+        <View style={styles.teamCard}>
+          <Image
+            source={require('../../assets/images/about-us-images/AbleFaithOpening-RibbonCutting1.jpg')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
         </View>
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/Thanksgiving1.jpg')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
         </View>
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/Thanksgiving-MasonandEmily1.jpg')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
         </View>
       </View>
 
       {/* Our Mission */}
       <Text style={styles.sectionTitle}>Our Mission:</Text>
       <View style={styles.missionContainer}>
-        <View style={styles.missionImagePlaceholder} />
-        <Text style={styles.missionText}>
-          Able Faith provides community and life-changing programs for people with
-          neurological disabilities and their caregivers.
-        </Text>
+        <Image
+          source={require('../../assets/images/about-us-images/Able-Faith-Background.png')}
+          style={StyleSheet.absoluteFillObject}
+          resizeMode="cover"
+        />
+        <View style={styles.missionOverlay}>
+          <Text style={styles.missionText}>
+            Able Faith provides community and life-changing programs for people with
+            neurological disabilities and their caregivers.
+          </Text>
+        </View>
       </View>
 
       {/* Meet the Team */}
       <Text style={styles.sectionTitle}>Meet the Team:</Text>
       <View style={styles.teamRow}>
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
-          <Text style={styles.personName}>Joe Haynes</Text>
-          <Text style={styles.personRole}>Staff</Text>
+          <Image
+            source={require('../../assets/images/about-us-images/jose1.png')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
+          <Text style={styles.personName}>Jose Martinez</Text>
+          <Text style={styles.personRole}>Co-Founder</Text>
         </View>
 
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/aaron1.png')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
           <Text style={styles.personName}>Aaron Brown</Text>
           <Text style={styles.personRole}>Staff</Text>
         </View>
 
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/brittany1.png')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
           <Text style={styles.personName}>Brittany Baker</Text>
           <Text style={styles.personRole}>Staff</Text>
         </View>
@@ -56,19 +93,31 @@ export default function AboutUs() {
       <Text style={styles.sectionTitle}>Our Board:</Text>
       <View style={styles.teamRow}>
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/riley1.png')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
           <Text style={styles.personName}>Riley Sprowl</Text>
           <Text style={styles.personRole}>Co-Founder</Text>
         </View>
 
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/jose2.png')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
           <Text style={styles.personName}>Jose Martinez</Text>
           <Text style={styles.personRole}>Co-Founder</Text>
         </View>
 
         <View style={styles.teamCard}>
-          <View style={styles.headshotPlaceholder} />
+          <Image
+            source={require('../../assets/images/about-us-images/bruce1.png')}
+            style={styles.headshotPlaceholder}
+            resizeMode="cover"
+          />
           <Text style={styles.personName}>Bruce Patel</Text>
           <Text style={styles.personRole}>Chairman</Text>
         </View>
@@ -77,10 +126,15 @@ export default function AboutUs() {
       {/* Sponsors */}
       <Text style={styles.sectionTitle}>Sponsors:</Text>
       <View style={styles.sponsors}>
-        <View style={styles.sponsorLogoPlaceholder} />
-        <View style={styles.sponsorLogoPlaceholder} />
-        <View style={styles.sponsorLogoPlaceholder} />
-        <View style={styles.sponsorLogoPlaceholder} />
+        {sponsorLogos.map((logo, index) => (
+          <View key={index} style={styles.sponsorLogoWrapper}>
+            <Image
+              source={logo}
+              style={styles.sponsorLogoImage}
+              resizeMode="contain"
+            />
+          </View>
+        ))}
       </View>
     </ScrollView>
   );
@@ -100,48 +154,37 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     color: "#c44a0c",
   },
-blueImageBackground: {
-  backgroundColor: "#e0f0ff",  // light blue background (change to any shade)
-  padding: 12,
-  flexDirection: "row",
-  justifyContent: "space-between",
-  borderRadius: 12,
-  marginBottom: 20,
-},
 
-  row: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  largeImagePlaceholder: {
-    width: "100%",
-    height: 140,
-    backgroundColor: "#e0e0e0",
+  blueImageBackground: {
+    backgroundColor: "#e0f0ff",
+    padding: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderRadius: 12,
+    marginBottom: 20,
   },
 
   missionContainer: {
     position: "relative",
     marginBottom: 20,
+    width: "100%",
+    height: 200,
+    borderRadius: 16,
+    overflow: "hidden",
   },
 
-  missionImagePlaceholder: {
-    width: "100%",
-    height: 150,
-    backgroundColor: "#e0e0e0",
-    borderRadius: 12,
+  missionOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 16,
   },
 
   missionText: {
-    position: "absolute",
-    top: "30%",
-    left: "10%",
-    right: "10%",
     textAlign: "center",
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#fff",
   },
 
   teamRow: {
@@ -153,13 +196,17 @@ blueImageBackground: {
   teamCard: {
     alignItems: "center",
     width: "30%",
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#f0f0f0",
+    paddingBottom: 6,
   },
 
   headshotPlaceholder: {
     width: "100%",
-    height: 90,
-    backgroundColor: "#d9d9d9",
-    borderRadius: 8,
+    aspectRatio: 1,
+    borderRadius: 12,
+    overflow: "hidden",
     marginBottom: 6,
   },
 
@@ -183,11 +230,21 @@ blueImageBackground: {
     marginBottom: 40,
   },
 
-  sponsorLogoPlaceholder: {
+  sponsorLogoWrapper: {
     width: "48%",
     height: 70,
-    backgroundColor: "#e0e0e0",
+    marginBottom: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
     borderRadius: 10,
-    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    backgroundColor: "#fff", // optional
+  },
+
+  sponsorLogoImage: {
+    width: "90%",
+    height: "90%",
   },
 });
