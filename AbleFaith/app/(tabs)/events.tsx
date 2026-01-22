@@ -1,41 +1,113 @@
 // app/events.tsx
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, Switch, StyleSheet, ScrollView } from "react-native";
+import { Calendar } from "react-native-calendars";
 import CustomHeader from '../../components/custom-header';
 
-export default function EventsScreen() {
+interface EventItem {
+  title: string;
+  time: string;
+  remind: boolean;
+}
+
+export default function EventPage() {
+  const [selectedDate, setSelectedDate] = useState("2025-04-10");
+
+  // Temporary events. will fetch later later
+  const events: Record<string, EventItem[]> = {
+    "2025-04-10": [
+      { title: "Potluck", time: "2:00 PM", remind: true },
+      { title: "Game Night", time: "5:00 PM", remind: false },
+    ],
+  };
+
+  const todayEvents = events[selectedDate] || [];
+
+  const toggleReminder = (index: number) => {
+    todayEvents[index].remind = !todayEvents[index].remind;
+  };
+
   return (
     <ScrollView style={styles.container}>
       <CustomHeader/>
 
-      <View style={styles.pageContainer}>
-        <Text style={styles.title}>Upcoming Events</Text>
-        <Text style={styles.description}>
-          Stay updated with our latest events and activities.
-        </Text>
-        {/* Add your events content here */}
+      <View style={styles.contentContainer}>
+        {/* Calendar */}
+        <Calendar
+          onDayPress={(day) => setSelectedDate(day.dateString)}
+          markedDates={{
+            [selectedDate]: { selected: true, selectedColor: "#00adf5" },
+          }}
+          style={styles.calendar}
+        />
+
+        {/* Events section */}
+        <View style={styles.eventsContainer}>
+          {todayEvents.length === 0 ? (
+            <Text style={styles.noEventsText}>No events for this day.</Text>
+          ) : (
+            todayEvents.map((event, index) => (
+              <View key={index} style={styles.eventCard}>
+                <View style={styles.eventHeader}>
+                  <Text style={styles.eventTime}>{event.time}</Text>
+                  <View style={styles.remindContainer}>
+                    <Text style={styles.remindLabel}>Remind me</Text>
+                    <Switch
+                      value={event.remind}
+                      onValueChange={() => toggleReminder(index)}
+                    />
+                  </View>
+                </View>
+
+                <Text style={styles.eventTitle}>{event.title}</Text>
+
+                <View style={styles.line} />
+              </View>
+            ))
+          )}
+        </View>
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 15,
+  container: { flex: 1, backgroundColor: "#fff" },
+  calendar: {
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
-  description: {
+  eventsContainer: { padding: 16 },
+  noEventsText: {
     fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
+    color: "gray",
+    textAlign: "center",
+    marginTop: 20,
   },
   pageContainer: {
     flex: 1,
     padding: 20,
-  }
+  },
+  eventCard: { marginBottom: 20 },
+  eventHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  eventTime: { fontSize: 14, color: "#555" },
+  remindContainer: { flexDirection: "row", alignItems: "center" },
+  remindLabel: { marginRight: 8, fontSize: 14 },
+  eventTitle: { fontSize: 20, fontWeight: "600", marginTop: 5 },
+  line: {
+    marginTop: 10,
+    height: 1,
+    backgroundColor: "#ccc",
+    width: "100%",
+  },
 });
