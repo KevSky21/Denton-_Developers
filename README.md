@@ -8,6 +8,8 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
+   npm install firebase
+   npm install @react-native-async-storage/async-storage
    npx expo install react-native-qrcode-svg react-native-svg
    npx expo install react-native-calendars
    npm audit fix
@@ -18,8 +20,8 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npx expo start
-   Scan QR code using Expo app or ctrl click on local host link
    ```
+   Scan QR code using Expo app or ctrl click on local host link
 
 In the output, you'll find options to open the app in a
 
