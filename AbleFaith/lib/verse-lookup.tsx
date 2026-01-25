@@ -1,7 +1,7 @@
 // verse lookup
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore, doc, getDoc} from "firebase/firestore";
-import { db } from "../app/(tabs)/_layout";
+import { db } from "./firebase";
 
 export type BibleVerse = {
   text: string;
