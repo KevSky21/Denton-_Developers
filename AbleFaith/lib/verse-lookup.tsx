@@ -8,11 +8,14 @@ export type BibleVerse = {
   reference: string;
 }
 
+const VERSE_CACHE = "cachedVerse";
+const USED_VERSES = "usedVerses"
+
 export async function getVerse(): Promise<BibleVerse | null> {
   try {
     const today = new Date().toISOString().split("T")[0];
 
-    const cached = await AsyncStorage.getItem("cachedVerse");
+    const cached = await AsyncStorage.getItem(VERSE_CACHE);
     
     if(cached) { 
       const parsed = JSON.parse(cached);
@@ -22,14 +25,16 @@ export async function getVerse(): Promise<BibleVerse | null> {
       }
     }
 
-    const ref = doc(db, "config", "appData");
-    const snap = await getDoc(ref);
-
+    const snap = await getDoc(doc(db, "config", "appData"));
     const verses: string[] = snap.data()?.verses || [];
-
     if(!verses.length) { return null; }
 
-    const randomRef = verses[Math.floor(Math.random() * verses.length)];
+    const used = await AsyncStorage.getItem(USED_VERSES);
+    let usedVerses: string[] = used ? JSON.parse(used) : [];
+    if(usedVerses.length >= verses.length) { usedVerses = []; }
+
+    const unused = verses.filter(v => !usedVerses.includes(v));
+    const randomRef = unused[Math.floor(Math.random() * unused.length)];
 
     const res = await fetch(`https://bible-api.com/${encodeURIComponent(randomRef)}`);
     const data = await res.json();
@@ -39,13 +44,22 @@ export async function getVerse(): Promise<BibleVerse | null> {
       reference: data.reference,
     }
 
-    await AsyncStorage.setItem(
-      "cachedVerse", 
-      JSON.stringify({
-        date: today,
-        verse,
-      })
-    );
+    await AsyncStorage.multiSet([
+      [
+        VERSE_CACHE,
+        JSON.stringify({
+          date:today,
+          verse,
+        }),
+      ],
+      [
+        USED_VERSES,
+        JSON.stringify([
+          ...usedVerses,
+          randomRef,
+        ]),
+      ],
+    ]);
 
     return verse;
   }
