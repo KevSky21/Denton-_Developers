@@ -54,6 +54,12 @@ export default function HomeScreen() {
         >
           <Text style={styles.gridText}>Get Involved</Text>
         </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.gridItem, styles.involvedBox]}
+          onPress={() => router.replace('/chat')}
+        >
+          <Text style={styles.gridText}>Chat</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

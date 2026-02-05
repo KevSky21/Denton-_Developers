@@ -1,9 +1,9 @@
-// app/_layout.tsx
 import { Stack } from 'expo-router';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore'; // ⭐ ADD THIS
 
-// Firebase configuration - Replace with your actual config
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDXS1CL1dqgTnn4vTVwRNiIYq_l_w6kyWU",
   authDomain: "dentondevelopers.firebaseapp.com",
@@ -16,7 +16,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
+export const myDb = getFirestore(app); // ⭐ EXPORT FIRESTORE
 
 export default function RootLayout() {
   return (
