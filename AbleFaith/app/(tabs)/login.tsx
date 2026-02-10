@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './_layout';
+import { auth } from '../../lib/firebase';
 import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {

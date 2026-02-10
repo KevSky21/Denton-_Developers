@@ -1,11 +1,21 @@
 // app/home.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import CustomHeader from '../../components/custom-header';
+import { getVerse, BibleVerse } from '../../lib/verse-lookup';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [verse, setVerse] = useState<BibleVerse | null>(null);
+
+  useEffect(() => {
+    async function loadVerse() {
+      const v = await getVerse();
+      setVerse(v);
+    }
+    loadVerse();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -19,10 +29,14 @@ export default function HomeScreen() {
 
       {/* Bible Verse Section */}
       <View style={styles.verseContainer}>
-        <Text style={styles.verseText}>
-          "You are the light of the world. A city set on a hill cannot be hidden."
-        </Text>
-        <Text style={styles.verseReference}>Matthew 5:14</Text>
+        {verse ? (
+          <>
+            <Text style={styles.verseText}>"{verse.text}"</Text>
+            <Text style={styles.verseReference}>"{verse.reference}"</Text>
+          </>
+        ) : (
+            <Text style={styles.verseText}>Loading today's verse...</Text>
+        )}
       </View>
 
       {/* Navigation Grid */}
