@@ -1,113 +1,120 @@
-// app/events.tsx
+// app/(tabs)/events.tsx
+
 import React, { useState } from "react";
-import { View, Text, Switch, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Switch,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Calendar } from "react-native-calendars";
+import { useRouter } from "expo-router";
 import CustomHeader from '../../components/custom-header';
+import * as Notifications from "expo-notifications";
 
 interface EventItem {
+  id: string;
   title: string;
   time: string;
   remind: boolean;
 }
 
-export default function EventPage() {
-  const [selectedDate, setSelectedDate] = useState("2025-04-10");
+type EventsByDate = Record<string, EventItem[]>;
 
-  // Temporary events. will fetch later later
-  const events: Record<string, EventItem[]> = {
-    "2025-04-10": [
-      { title: "Potluck", time: "2:00 PM", remind: true },
-      { title: "Game Night", time: "5:00 PM", remind: false },
-    ],
-  };
+export default function EventPage() {
+  const router = useRouter();
+
+  const [selectedDate, setSelectedDate] = useState("2026-03-03");
+
+const [events, setEvents] = useState<EventsByDate>({
+  "2026-03-03": [
+    { id: "1", title: "Potluck", time: "2:00 PM", remind: false },
+    { id: "2", title: "Game Night", time: "5:00 PM", remind: false },
+    { id: "3", title: "Bible Study", time: "6:30 PM", remind: false },
+  ],
+});
 
   const todayEvents = events[selectedDate] || [];
 
-  const toggleReminder = (index: number) => {
-    todayEvents[index].remind = !todayEvents[index].remind;
+  const toggleReminder = (eventId: string, date: string) => {
+	setEvents((prevEvents) => {
+      const dayEvents = prevEvents[date] || [];
+
+      const updatedDay = dayEvents.map((event) =>
+        event.id === eventId
+          ? { ...event, remind: !event.remind }
+          : event
+      );
+
+      return {
+        ...prevEvents,
+        [date]: updatedDay,
+      };
+    });
   };
 
-  return (
-    <ScrollView style={styles.container}>
-      <CustomHeader/>
+return (
+  <ScrollView style={styles.container}>
+    <CustomHeader />
 
-      <View style={styles.contentContainer}>
-        {/* Calendar */}
-        <Calendar
-          onDayPress={(day) => setSelectedDate(day.dateString)}
-          markedDates={{
-            [selectedDate]: { selected: true, selectedColor: "#00adf5" },
-          }}
-          style={styles.calendar}
-        />
+    <Calendar
+      onDayPress={(day) => setSelectedDate(day.dateString)}
+      markedDates={{
+        [selectedDate]: {
+          selected: true,
+          selectedColor: "#00adf5",
+        },
+      }}
+    />
 
-        {/* Events section */}
-        <View style={styles.eventsContainer}>
-          {todayEvents.length === 0 ? (
-            <Text style={styles.noEventsText}>No events for this day.</Text>
-          ) : (
-            todayEvents.map((event, index) => (
-              <View key={index} style={styles.eventCard}>
-                <View style={styles.eventHeader}>
-                  <Text style={styles.eventTime}>{event.time}</Text>
-                  <View style={styles.remindContainer}>
-                    <Text style={styles.remindLabel}>Remind me</Text>
-                    <Switch
-                      value={event.remind}
-                      onValueChange={() => toggleReminder(index)}
-                    />
-                  </View>
-                </View>
+    <View style={styles.eventsContainer}>
+      {todayEvents.length === 0 ? (
+        <Text style={styles.noEventsText}>
+          No events for this date.
+        </Text>
+      ) : (
+        todayEvents.map((event) => (
+          <View key={event.id} style={styles.eventCard}>
+            <Text style={styles.eventTime}>{event.time}</Text>
+            <Text style={styles.eventTitle}>{event.title}</Text>
 
-                <Text style={styles.eventTitle}>{event.title}</Text>
-
-                <View style={styles.line} />
-              </View>
-            ))
-          )}
-        </View>
-      </View>
-    </ScrollView>
-  );
+            <Switch
+              value={event.remind}
+              onValueChange={() => toggleReminder(event.id, selectedDate)}
+            />
+          </View>
+        ))
+      )}
+    </View>
+  </ScrollView>
+);
 }
-
 const styles = StyleSheet.create({
-  contentContainer: {
+  container: {
     flex: 1,
-    paddingHorizontal: 16,
     backgroundColor: "#fff",
   },
-  container: { flex: 1, backgroundColor: "#fff" },
-  calendar: {
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+  eventsContainer: {
+    padding: 16,
   },
-  eventsContainer: { padding: 16 },
   noEventsText: {
     fontSize: 16,
     color: "gray",
     textAlign: "center",
     marginTop: 20,
   },
-  pageContainer: {
-    flex: 1,
-    padding: 20,
+  eventCard: {
+    marginBottom: 20,
   },
-  eventCard: { marginBottom: 20 },
-  eventHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+  eventTime: {
+    fontSize: 14,
+    color: "#555",
   },
-  eventTime: { fontSize: 14, color: "#555" },
-  remindContainer: { flexDirection: "row", alignItems: "center" },
-  remindLabel: { marginRight: 8, fontSize: 14 },
-  eventTitle: { fontSize: 20, fontWeight: "600", marginTop: 5 },
-  line: {
-    marginTop: 10,
-    height: 1,
-    backgroundColor: "#ccc",
-    width: "100%",
+  eventTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    marginTop: 5,
   },
 });
