@@ -28,6 +28,12 @@ export default function CustomHeader() {
               >
                 <Text style={styles.headerButtonText}>DONATE</Text>
               </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.accountButton}
+                onPress={() => router.replace('/account')}
+              >
+                <Text style={styles.headerButtonText}>ACCOUNT</Text>
+              </TouchableOpacity>
             </View>
           </View>
   );
@@ -64,6 +70,12 @@ const styles = StyleSheet.create({
   },
   donateButton: {
     backgroundColor: '#C5E1A5',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  accountButton: {
+    backgroundColor: '#87CEEB',
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 20,

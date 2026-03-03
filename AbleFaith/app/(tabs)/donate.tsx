@@ -3,11 +3,9 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import CustomHeader from '../../components/custom-header';
-import { Link } from '@react-navigation/native';
 
 export default function DonateScreen() {
-  const donateURL = 'https://ablefaith.networkforgood.com/projects/245315-2025-help-able-faith-make-a-difference';
-  const shortURL = 'https://tinyurl.com/3n7a5pp8';
+  const donateURL = 'https://ablefaith.networkforgood.com/projects/286715-able-faith-2026-stronger-together';
 
   const handlePress = async () => {
     const supported = await Linking.canOpenURL(donateURL);
@@ -41,7 +39,7 @@ export default function DonateScreen() {
         <View style={styles.textBox}>
           <Text style={styles.linkText}
             onPress={handlePress}>
-            {shortURL}
+            {donateURL}
           </Text>
         </View>
 
@@ -85,7 +83,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontFamily: 'Merriweather',
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#1B6EF3',
     alignSelf: 'center',
