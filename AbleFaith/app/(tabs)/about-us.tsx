@@ -1,9 +1,116 @@
 // app/about-us.tsx
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import CustomHeader from '../../components/custom-header';
-import { ScrollView, View, Text, StyleSheet, Image } from "react-native";
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function AboutUs() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const flatListRef = useRef<FlatList>(null);
+
+  const testimonials = [
+    {
+      id: '1',
+      name: 'Mady',
+      initials: 'M',
+      avatarColor: '#c44a0c',
+      timeAgo: '3 months ago',
+      stars: 5,
+      text: 'I was blessed to be able to work with a client today at Able Faith. The concept of the entire place is amazing and I love how welcoming it is. The facility was very clean and I would highly recommend this place to anyone needing a community to connect with 🤍',
+    },
+    {
+      id: '2',
+      name: 'Carolyn Howell',
+      initials: 'CH',
+      avatarColor: '#4a7fc1',
+      timeAgo: '10 months ago',
+      stars: 5,
+      text: 'This is an amazing place to be for people who have disabilities and their respective loved ones. Great community, wonderful values, and looking to get people connected. I have been coming here for 9 months and I love everything about what Jose Martinez and Aaron Akeman do for people like myself is incredible!!',
+    },
+    {
+      id: '3',
+      name: 'Natasha Giddings',
+      initials: 'N',
+      avatarColor: '#6a5acd',
+      timeAgo: '10 months ago',
+      stars: 5,
+      text: 'I am so honored to be a member of Able Faith!! God has truly blessed me to call them family. Able Faith in every way is the epitome of their name. This place and the people exudes love and compassion for everyone. If I could give 10 stars I would ✨',
+    },
+    {
+      id: '4',
+      name: 'Megan Hutson',
+      initials: 'M',
+      avatarColor: '#7b3fa0',
+      timeAgo: '11 months ago',
+      stars: 5,
+      text: 'Able Faith is such a gift and all the staff are awesome! A very welcoming environment of all people with and without disabilities. I would highly recommend to any of my clients seeking a place for community, social engagement, and opportunity to use equipment that may not be accessible at a local or chain gym.',
+    },
+    {
+      id: '5',
+      name: 'Summer Love',
+      initials: 'SL',
+      avatarColor: '#d4872a',
+      timeAgo: '11 months ago',
+      stars: 5,
+      text: 'I am so grateful for this amazing team of fabulous volunteers that help make those with disabilities to find Hope, support, and encouragement to build a healthier body, while loving the Lord Jesus Christ!!! They are truly amazing!!!',
+    },
+    {
+      id: '6',
+      name: 'Zoya Effanga',
+      initials: 'ZE',
+      avatarColor: '#2a7a4b',
+      timeAgo: '3 months ago',
+      stars: 5,
+      text: 'I loved visiting here with my classmates! Everyone was so kind and welcoming! Hope to come back again soon.',
+    },
+    {
+      id: '7',
+      name: 'Vinnie Patel',
+      initials: 'V',
+      avatarColor: '#5a3fa0',
+      timeAgo: 'A year ago',
+      stars: 5,
+      text: 'All the people that work here are absolutely amazing. They are changing lives and instilling positivity in so many families with the work they do here. If you are able, please donate as patients are seen voluntarily. God bless.',
+    },
+    {
+      id: '8',
+      name: 'Shonda Jones',
+      initials: 'S',
+      avatarColor: '#b03060',
+      timeAgo: '11 months ago',
+      stars: 5,
+      text: 'Able Faith is an Amazing Faith Based Facility with Amazing Staff as well. They cater to Individuals w/Neuro Challenges and Caregivers to improve their life 💗💗💗',
+    },
+    {
+      id: '9',
+      name: 'Neha Kandi',
+      initials: 'NK',
+      avatarColor: '#1a6b8a',
+      timeAgo: '10 months ago',
+      stars: 5,
+      text: 'This place is extremely welcoming and is a place where people can come in and feel free. The staff is extremely warm and welcoming and have an extremely positive rapport with everyone who comes here.',
+    },
+    {
+      id: '10',
+      name: 'Courtney Mason',
+      initials: 'CM',
+      avatarColor: '#c44a0c',
+      timeAgo: '11 months ago',
+      stars: 5,
+      text: 'Such an amazing place to connect with people and get involved in fun activities in the community! So looking forward to attending more events soon with my mom! 💗',
+    },
+  ];
+
+  const handleScroll = (event: any) => {
+    const index = Math.round(event.nativeEvent.contentOffset.x / (SCREEN_WIDTH - 32));
+    setActiveIndex(index);
+  };
+
+  const goToSlide = (index: number) => {
+    flatListRef.current?.scrollToIndex({ index, animated: true });
+    setActiveIndex(index);
+  };
   const sponsorLogos = [
     require('../../assets/images/about-us-images/wingstop.png'),
     require('../../assets/images/about-us-images/benton-luttrell.png'),
@@ -141,6 +248,48 @@ export default function AboutUs() {
             </View>
           ))}
         </View>
+        {/* Testimonials */}
+        <Text style={styles.sectionTitle}>What People Say:</Text>
+        <View style={styles.testimonialsWrapper}>
+          <FlatList
+            ref={flatListRef}
+            data={testimonials}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            snapToInterval={SCREEN_WIDTH - 32}
+            decelerationRate="fast"
+            onMomentumScrollEnd={handleScroll}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.testimonialCard}>
+                <View style={styles.testimonialHeader}>
+                  <View style={[styles.avatarCircle, { backgroundColor: item.avatarColor }]}>
+                    <Text style={styles.avatarText}>{item.initials}</Text>
+                  </View>
+                  <View style={styles.testimonialMeta}>
+                    <Text style={styles.testimonialName}>{item.name}</Text>
+                    <Text style={styles.testimonialTime}>{item.timeAgo}</Text>
+                  </View>
+                </View>
+                <View style={styles.starsRow}>
+                  {Array.from({ length: item.stars }).map((_, i) => (
+                    <Text key={i} style={styles.star}>★</Text>
+                  ))}
+                </View>
+                <Text style={styles.testimonialText}>{item.text}</Text>
+              </View>
+            )}
+          />
+          {/* Dot indicators */}
+          <View style={styles.dotsContainer}>
+            {testimonials.map((_, i) => (
+              <TouchableOpacity key={i} onPress={() => goToSlide(i)}>
+                <View style={[styles.dot, i === activeIndex && styles.dotActive]} />
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -260,5 +409,95 @@ const styles = StyleSheet.create({
   sponsorLogoImage: {
     width: "90%",
     height: "90%",
+  },
+
+  testimonialsWrapper: {
+    marginBottom: 40,
+  },
+
+  testimonialCard: {
+    width: SCREEN_WIDTH - 32,
+    backgroundColor: "#1a1a2e",
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+
+  testimonialHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  avatarCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 12,
+  },
+
+  avatarText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+
+  testimonialMeta: {
+    flex: 1,
+  },
+
+  testimonialName: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 15,
+  },
+
+  testimonialTime: {
+    color: "#aaa",
+    fontSize: 12,
+    marginTop: 2,
+  },
+
+  starsRow: {
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+
+  star: {
+    color: "#f5c518",
+    fontSize: 16,
+    marginRight: 2,
+  },
+
+  testimonialText: {
+    color: "#ddd",
+    fontSize: 14,
+    lineHeight: 22,
+  },
+
+  dotsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 14,
+    gap: 8,
+  },
+
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#ccc",
+  },
+
+  dotActive: {
+    backgroundColor: "#c44a0c",
+    width: 20,
+    borderRadius: 4,
   },
 });
