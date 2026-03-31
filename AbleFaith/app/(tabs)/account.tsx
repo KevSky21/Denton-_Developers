@@ -12,79 +12,99 @@ export default function AccountScreen() {
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
+  const displayNameChanged = displayName !== (auth.currentUser?.displayName || "");
+
+  const wantsSecurityChange = newEmail.length > 0 || newPassword.length > 0;
+
+  const canSubmitSecurity = wantsSecurityChange && currentEmail.length > 0 && currentPassword.length > 0;
+
   useEffect(() => {
     const user = auth.currentUser;
     if(user) {
       setDisplayName(user.displayName || '');
     }
   }, []);
-  
-  const updateAccount = async () => {
+
+  const updateDisplayName = async () => {
     try {
       const user = auth.currentUser;
-
       if (!user) throw new Error("No authenticated user.");
 
-      if (!currentEmail || !currentPassword) {
-        throw new Error("Current email and password required.")
-      }
-
-      const displayNameChanged = displayName !== (user.displayName || "");
-      const emailChanged = newEmail && newEmail !== user.email;
-      const passwordChanged = newPassword.length > 0;
-
-      if(!displayNameChanged && !emailChanged && !passwordChanged) {
-        Alert.alert("No Changes", "Nothing was updated.");
+      if (displayName === (user.displayName || "")) {
+        Alert.alert("No Changes", "Display name is the same.");
         return;
       }
 
-      if(displayNameChanged) {
-        await updateProfile(user, {displayName});
+      await updateProfile(user, { displayName });
+      await user.reload();
+
+      setDisplayName(user.displayName || '');
+
+      Alert.alert("Success", "Display name updated!");
+    } catch (error: any) {
+      Alert.alert("Error", error.message);
+    }
+  };
+  
+  const updateSecurity = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("No authenticated user.");
+
+      const emailChanged = newEmail.length > 0 && newEmail !== user.email;
+      const passwordChanged = newPassword.length > 0;
+
+      if (!emailChanged && !passwordChanged) {
+        Alert.alert("No Changes", "Nothing to update.");
+        return;
       }
 
-      if (emailChanged || passwordChanged) {
-        const credential = EmailAuthProvider.credential(
-          currentEmail,
-          currentPassword
+      if (!currentEmail || !currentPassword) {
+        throw new Error("Current email and password required.");
+      }
+
+      const credential = EmailAuthProvider.credential(
+        currentEmail,
+        currentPassword
+      );
+
+      const hasPassword = user.providerData.some(
+        (p) => p.providerId === "password"
+      );
+
+      if (!hasPassword) {
+        await linkWithCredential(user, credential);
+      }
+
+      await reauthenticateWithCredential(user, credential);
+
+      if (!user.emailVerified) {
+        await sendEmailVerification(user);
+        Alert.alert(
+          "Verify Email",
+          "Please verify your current email before updating."
         );
+        return;
+      }
 
-        const hasPassword = user.providerData.some(p => p.providerId === "password");
-        if(!hasPassword) {
-          await linkWithCredential(user, credential);
-        }
+      if (emailChanged) {
+        await updateEmail(user, newEmail);
+      }
 
-        await reauthenticateWithCredential(user, credential);
-
-        if(!user.emailVerified) {
-          await sendEmailVerification(user);
-          Alert.alert("Verify Email", "Please verify your current email before updating account info.");
-          return;
-        }
-
-        if(emailChanged) {
-          await updateEmail(user, newEmail);
-        }
-
-        if(passwordChanged) {
-          await updatePassword(user, newPassword);
-        }
+      if (passwordChanged) {
+        await updatePassword(user, newPassword);
       }
 
       await user.reload();
 
-      setDisplayName(user.displayName || '');
-      setCurrentEmail('');
-      setNewEmail('');
-      setCurrentPassword('');
-      setNewPassword('');
+      setCurrentEmail("");
+      setCurrentPassword("");
+      setNewEmail("");
+      setNewPassword("");
 
-      Alert.alert("Success", "Account updated successfully!");
+      Alert.alert("Success", "Security settings updated!");
     } catch (error: any) {
-      if(error instanceof Error) {
-        Alert.alert("Error", error.message);
-      } else {
-        Alert.alert("Error", "Something went wrong.");
-      }
+      Alert.alert("Error", error.message);
     }
   };
 
@@ -102,47 +122,70 @@ export default function AccountScreen() {
           value={displayName}
           onChangeText={setDisplayName}
           placeholder="Display Name"
-          autoCapitalize='none'
         />
 
-        <TextInput 
+        <TouchableOpacity
+          style={[
+            styles.saveDisplayButton,
+            !displayNameChanged && styles.disabledButton
+          ]}
+          onPress={updateDisplayName}
+          disabled={!displayNameChanged}
+        >
+          <Text style={styles.saveButtonText}>Save Display Name</Text>
+        </TouchableOpacity>
+        
+        <View style={styles.divider} />
+
+        <Text style={styles.sectionTitle}>Security</Text>
+
+        <Text style={styles.helperText}>
+          Updating email or password requires your current credentials.
+        </Text>
+
+        <TextInput
           style={styles.input}
           value={currentEmail}
           onChangeText={setCurrentEmail}
           placeholder="Current Email"
-          autoCapitalize='none'
-          keyboardType='email-address'
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
 
-        <TextInput 
-          style={styles.input}
-          value={newEmail}
-          onChangeText={setNewEmail}
-          placeholder="New Email"
-          autoCapitalize='none'
-          keyboardType='email-address'
-        />
-
-        <TextInput 
+        <TextInput
           style={styles.input}
           value={currentPassword}
           onChangeText={setCurrentPassword}
           placeholder="Current Password"
-          autoCapitalize='none'
           secureTextEntry
         />
 
-        <TextInput 
+        <TextInput
+          style={styles.input}
+          value={newEmail}
+          onChangeText={setNewEmail}
+          placeholder="New Email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+
+        <TextInput
           style={styles.input}
           value={newPassword}
           onChangeText={setNewPassword}
           placeholder="New Password"
-          autoCapitalize='none'
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.saveButton} onPress={updateAccount}>
-          <Text style={styles.saveButtonText}>Save Changes</Text>
+        <TouchableOpacity
+          style={[
+            styles.saveSecurityButton,
+            !canSubmitSecurity && styles.disabledButton
+          ]}
+          onPress={updateSecurity}
+          disabled={!canSubmitSecurity}
+        >
+          <Text style={styles.saveButtonText}>Save Security Changes</Text>
         </TouchableOpacity>
       </View>
 
@@ -180,18 +223,49 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
   },
-  saveButton: {
-    backgroundColor: '#FF9999',
+  saveSecurityButton: {
+    backgroundColor: '#1ba802',
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 20,
+    paddingLeft: 15,
     borderRadius: 20,
-    width: 150,
+    width: 190,
     marginTop: 10,
     marginLeft: 10,
+    alignContent: 'center',
+  },
+  saveDisplayButton: {
+    backgroundColor: '#1ba802',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    borderRadius: 20,
+    width: 170,
+    marginTop: 10,
+    marginLeft: 10,
+    alignContent: 'center',
   },
   saveButtonText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
+  },
+  sectionTitle: {
+  fontSize: 22,
+  fontWeight: '600',
+  marginTop: 20,
+  marginBottom: 5,
+  },
+  helperText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 10,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#eee',
+    marginVertical: 25,
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
   },
 });

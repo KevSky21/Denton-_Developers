@@ -1,16 +1,16 @@
-// app/donation.tsx
+// app/equipment.tsx
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import CustomHeader from '../../components/custom-header';
 
-export default function DonateScreen() {
-  const donateURL = 'https://ablefaith.networkforgood.com/projects/286715-able-faith-2026-stronger-together';
+export default function EquipmentScreen() {
+  const requestURL = 'https://ablefaith.networkforgood.com/projects/286715-able-faith-2026-stronger-together';
 
   const handlePress = async () => {
-    const supported = await Linking.canOpenURL(donateURL);
+    const supported = await Linking.canOpenURL(requestURL);
     if (supported) {
-      await Linking.openURL(donateURL);
+      await Linking.openURL(requestURL);
     }
     else {
       alert('Unable to open');
@@ -22,16 +22,16 @@ export default function DonateScreen() {
       <CustomHeader/>
 
       <View style={styles.pageContainer}>
-        <Text style={styles.title}>Donate</Text>
+        <Text style={styles.title}>Equipment</Text>
 
         <Text style={styles.subtitle}>
-          Scan to donate or share with others
+          Scan to fill out our request form
         </Text>
 
         <TouchableOpacity onPress={handlePress}>
           <View style={styles.qrContainer}>
             <QRCode
-              value={donateURL}
+              value={requestURL}
               size={200}
               color='#000'
               backgroundColor='#fff'
@@ -49,13 +49,21 @@ export default function DonateScreen() {
 
         <View style={styles.textBox}>
           <Text style={styles.description}>
-            Able Faith is all about growth and empowerement for those with neurological disorders.
+            Fill out the request form and our team will review your submission.
           </Text>
         </View>
 
         <View style={styles.textBox}>
           <Text style={styles.description}>
-            Check out our QR code for more info on how you can help.
+            1. Submit form
+          </Text>
+          
+          <Text style={styles.description}>
+            2. We review
+          </Text>
+            
+          <Text style={styles.description}>
+            3. We contact you
           </Text>
         </View>
       </View>
