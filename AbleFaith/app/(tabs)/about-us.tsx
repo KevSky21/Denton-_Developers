@@ -172,31 +172,31 @@ export default function AboutUs() {
         <View style={styles.teamRow}>
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/jose1.png')}
+              source={require('../../assets/images/about-us-images/Reena_Patel.png')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
-            <Text style={styles.personName}>Jose Martinez</Text>
-            <Text style={styles.personRole}>Co-Founder</Text>
-          </View>
-
-          <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/aaron1.png')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
-            <Text style={styles.personName}>Aaron Brown</Text>
+            <Text style={styles.personName}>Reena Patel</Text>
             <Text style={styles.personRole}>Staff</Text>
           </View>
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/brittany1.png')}
+              source={require('../../assets/images/about-us-images/Jim_Hemsworth.png')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
-            <Text style={styles.personName}>Brittany Baker</Text>
+            <Text style={styles.personName}>Jim Hemsworth</Text>
+            <Text style={styles.personRole}>Staff</Text>
+          </View>
+
+          <View style={styles.teamCard}>
+            <Image
+              source={require('../../assets/images/about-us-images/Deneen_Cavett.png')}
+              style={styles.headshotPlaceholder}
+              resizeMode="cover"
+            />
+            <Text style={styles.personName}>Deneen Cavett</Text>
             <Text style={styles.personRole}>Staff</Text>
           </View>
         </View>
@@ -206,17 +206,17 @@ export default function AboutUs() {
         <View style={styles.teamRow}>
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/riley1.png')}
+              source={require('../../assets/images/about-us-images/Bethany_Brown.png')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
-            <Text style={styles.personName}>Riley Sprowl</Text>
+            <Text style={styles.personName}>Bethany Brown</Text>
             <Text style={styles.personRole}>Co-Founder</Text>
           </View>
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/jose2.png')}
+              source={require('../../assets/images/about-us-images/Jose_Martinez.png')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
@@ -226,7 +226,7 @@ export default function AboutUs() {
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/bruce1.png')}
+              source={require('../../assets/images/about-us-images/Bruce_Patel.png')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
