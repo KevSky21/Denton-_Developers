@@ -172,7 +172,7 @@ export default function AboutUs() {
         <View style={styles.teamRow}>
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/Reena_Patel.png')}
+              source={require('../../assets/images/about-us-images/Reena_Patel.jpg')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
@@ -182,7 +182,7 @@ export default function AboutUs() {
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/Jim_Hemsworth.png')}
+              source={require('../../assets/images/about-us-images/Jim_Hemsworth.jpg')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
@@ -192,7 +192,7 @@ export default function AboutUs() {
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/Deneen_Cavett.png')}
+              source={require('../../assets/images/about-us-images/Deneen_Cavett.jpg')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
@@ -206,7 +206,7 @@ export default function AboutUs() {
         <View style={styles.teamRow}>
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/Bethany_Brown.png')}
+              source={require('../../assets/images/about-us-images/Bethany_Brown.jpg')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
@@ -216,7 +216,7 @@ export default function AboutUs() {
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/Jose_Martinez.png')}
+              source={require('../../assets/images/about-us-images/Jose_Martinez.jpg')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
@@ -226,7 +226,7 @@ export default function AboutUs() {
 
           <View style={styles.teamCard}>
             <Image
-              source={require('../../assets/images/about-us-images/Bruce_Patel.png')}
+              source={require('../../assets/images/about-us-images/Bruce_Patel.jpg')}
               style={styles.headshotPlaceholder}
               resizeMode="cover"
             />
