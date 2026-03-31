@@ -4,8 +4,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert 
 import CustomHeader from '../../components/custom-header';
 import { auth } from '../../lib/firebase';
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePassword, updateProfile, linkWithCredential, sendEmailVerification } from 'firebase/auth';
+import { useRouter } from 'expo-router';
 
 export default function AccountScreen() {
+  const router = useRouter();
   const [displayName, setDisplayName] = useState('');
   const [currentEmail, setCurrentEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -41,6 +43,8 @@ export default function AccountScreen() {
       setDisplayName(user.displayName || '');
 
       Alert.alert("Success", "Display name updated!");
+
+      router.replace('/account');
     } catch (error: any) {
       Alert.alert("Error", error.message);
     }
@@ -103,6 +107,8 @@ export default function AccountScreen() {
       setNewPassword("");
 
       Alert.alert("Success", "Security settings updated!");
+      
+      router.replace('/account');
     } catch (error: any) {
       Alert.alert("Error", error.message);
     }
@@ -224,7 +230,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   saveSecurityButton: {
-    backgroundColor: '#1ba802',
+    backgroundColor: '#C5E1A5',
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 15,
@@ -235,7 +241,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   saveDisplayButton: {
-    backgroundColor: '#1ba802',
+    backgroundColor: '#C5E1A5',
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 15,
