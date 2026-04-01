@@ -111,6 +111,7 @@ export default function AboutUs() {
     flatListRef.current?.scrollToIndex({ index, animated: true });
     setActiveIndex(index);
   };
+
   const sponsorLogos = [
     require('../../assets/images/about-us-images/wingstop.png'),
     require('../../assets/images/about-us-images/benton-luttrell.png'),
@@ -121,35 +122,35 @@ export default function AboutUs() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <CustomHeader/>
-      
+
       <View style={styles.contentContainer}>
         {/* About Us Header */}
         <Text style={styles.sectionTitle}>About us:</Text>
 
-        {/* About Us images */}
-        <View style={styles.blueImageBackground}>
-          <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/AbleFaithOpening-RibbonCutting1.jpg')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
-          </View>
-          <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Thanksgiving1.jpg')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
-          </View>
-          <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Thanksgiving-MasonandEmily1.jpg')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
-          </View>
+       {/* About Us images */}
+      <View style={styles.blueImageBackground}>
+        <View style={styles.aboutImageWrapper}>
+          <Image
+            source={require('../../assets/images/about-us-images/AbleFaithOpening-RibbonCutting1.jpg')}
+            style={styles.aboutImage}
+            resizeMode="contain"
+          />
         </View>
+        <View style={styles.aboutImageWrapper}>
+          <Image
+            source={require('../../assets/images/about-us-images/Thanksgiving1.jpg')}
+            style={styles.aboutImage}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.aboutImageWrapper}>
+          <Image
+            source={require('../../assets/images/about-us-images/Thanksgiving-MasonandEmily1.jpg')}
+            style={styles.aboutImage}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
 
         {/* Our Mission */}
         <Text style={styles.sectionTitle}>Our Mission:</Text>
@@ -171,31 +172,37 @@ export default function AboutUs() {
         <Text style={styles.sectionTitle}>Meet the Team:</Text>
         <View style={styles.teamRow}>
           <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Reena_Patel.JPG')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Reena_Patel.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.personName}>Reena Patel</Text>
             <Text style={styles.personRole}>Staff</Text>
           </View>
 
           <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Jim_Hemsworth.JPG')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Jim_Hemsworth.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.personName}>Jim Hemsworth</Text>
             <Text style={styles.personRole}>Staff</Text>
           </View>
 
           <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Deneen_Cavett.JPG')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Deneen_Cavett.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.personName}>Deneen Cavett</Text>
             <Text style={styles.personRole}>Staff</Text>
           </View>
@@ -205,31 +212,37 @@ export default function AboutUs() {
         <Text style={styles.sectionTitle}>Our Board:</Text>
         <View style={styles.teamRow}>
           <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Bethany_Brown.JPG')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Bethany_Brown.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.personName}>Bethany Brown</Text>
             <Text style={styles.personRole}>Co-Founder</Text>
           </View>
 
           <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Jose_Martinez.JPG')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Jose_Martinez.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.personName}>Jose Martinez</Text>
             <Text style={styles.personRole}>Co-Founder</Text>
           </View>
 
           <View style={styles.teamCard}>
-            <Image
-              source={require('../../assets/images/about-us-images/Bruce_Patel.JPG')}
-              style={styles.headshotPlaceholder}
-              resizeMode="cover"
-            />
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Bruce_Patel.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
             <Text style={styles.personName}>Bruce Patel</Text>
             <Text style={styles.personRole}>Chairman</Text>
           </View>
@@ -248,6 +261,7 @@ export default function AboutUs() {
             </View>
           ))}
         </View>
+
         {/* Testimonials */}
         <Text style={styles.sectionTitle}>What People Say:</Text>
         <View style={styles.testimonialsWrapper}>
@@ -281,7 +295,6 @@ export default function AboutUs() {
               </View>
             )}
           />
-          {/* Dot indicators */}
           <View style={styles.dotsContainer}>
             {testimonials.map((_, i) => (
               <TouchableOpacity key={i} onPress={() => goToSlide(i)}>
@@ -344,12 +357,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontWeight: "600",
-    color: "#fff",
+    color: "#000000",
   },
+
   pageContainer: {
     flex: 1,
     padding: 20,
   },
+
   teamRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -365,12 +380,21 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
 
-  headshotPlaceholder: {
+  // --- Headshot wrappers for all team/board images ---
+  headshotWrapper: {
     width: "100%",
     aspectRatio: 1,
+    backgroundColor: "#f0f0f0",
     borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
     overflow: "hidden",
     marginBottom: 6,
+  },
+
+  headshotImage: {
+    width: "100%",
+    height: "100%",
   },
 
   personName: {
@@ -403,7 +427,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e0e0e0",
-    backgroundColor: "#fff", // optional
+    backgroundColor: "#fff",
   },
 
   sponsorLogoImage: {
@@ -499,5 +523,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#c44a0c",
     width: 20,
     borderRadius: 4,
+  },
+
+  // About Us images (top row)
+  aboutImageWrapper: {
+  flex: 1,
+  aspectRatio: 1.5, // keeps the box size
+  marginHorizontal: 4,
+  borderRadius: 12,
+  overflow: "hidden",
+  backgroundColor: "#f0f0f0", // optional background for letterbox
+  },
+  aboutImage: {
+    width: "100%",
+    height: "100%",
   },
 });
