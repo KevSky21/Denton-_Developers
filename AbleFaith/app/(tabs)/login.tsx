@@ -1,7 +1,7 @@
 // app/login.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { useRouter } from 'expo-router';
 
@@ -20,13 +20,17 @@ export default function LoginScreen() {
   };
 
   const handleSignUp = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      router.replace('/home');
-    } catch (error: any) {
-      Alert.alert('Sign Up Error', error.message);
-    }
-  };
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, {
+      displayName: 'Anonymous',
+    });
+
+    router.replace('/home');
+  } catch (error: any) {
+    Alert.alert('Sign Up Error', error.message);
+  }
+};
 
   return (
     <View style={styles.container}>

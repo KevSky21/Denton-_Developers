@@ -77,10 +77,11 @@ export default function ChatScreen() {
     await addDoc(collection(db, 'messages'), {
       text: myInput,
       uid: user?.uid,
-      email: user?.email,
+      displayName: user?.displayName || 'Anonymous',
       roomId: 'global',
       createdAt: serverTimestamp(),
       createdAtLocal: Date.now() / 1000
+
     });
 
     // Clear input and dismiss keyboard
@@ -125,7 +126,7 @@ export default function ChatScreen() {
                   : styles.other
               ]}
             >
-              <Text style={styles.email}>{item.email}</Text>
+              <Text style={styles.name}>{item.displayName}</Text>
               <Text style={styles.text}>{item.text}</Text>
             </View>
           )}
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     alignSelf: 'flex-start',
   },
-  email: {
+  name: {
     fontSize: 11,
     color: '#555',
     marginBottom: 4,
