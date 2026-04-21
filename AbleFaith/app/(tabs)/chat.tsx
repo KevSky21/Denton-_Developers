@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  Animated,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth, db } from '../../lib/firebase';
@@ -23,14 +24,69 @@ import {
   where
 } from 'firebase/firestore';
 
+interface InAppNotification {
+  id: string;
+  displayName: string;
+  text: string;
+}
+
 export default function ChatScreen() {
   const [myMessages, setMyMessages] = useState<any[]>([]);
   const [myInput, setMyInput] = useState('');
+  const [notification, setNotification] = useState<InAppNotification | null>(null);
   const flatListRef = useRef<FlatList<any>>(null);
   const inputRef = useRef<TextInput>(null);
 
+  // Animation values for the banner
+  const bannerOpacity = useRef(new Animated.Value(0)).current;
+  const bannerTranslateY = useRef(new Animated.Value(-60)).current;
+  const dismissTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showBanner = (notif: InAppNotification) => {
+    // Clear any existing dismiss timer
+    if (dismissTimer.current) clearTimeout(dismissTimer.current);
+
+    setNotification(notif);
+
+    // Slide in + fade in
+    Animated.parallel([
+      Animated.timing(bannerOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(bannerTranslateY, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    // Auto-dismiss after 3 seconds
+    dismissTimer.current = setTimeout(() => {
+      hideBanner();
+    }, 3000);
+  };
+
+  const hideBanner = () => {
+    Animated.parallel([
+      Animated.timing(bannerOpacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(bannerTranslateY, {
+        toValue: -60,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setNotification(null));
+  };
+
   // Load messages
   useEffect(() => {
+    const isFirstLoad = { current: true };
+
     const q = query(
       collection(db, 'messages'),
       where("roomId", "==", "global"),
@@ -46,15 +102,36 @@ export default function ChatScreen() {
           doc.data().createdAtLocal ||
           Date.now() / 1000
       }));
-      setMyMessages(loaded);
 
-      // Scroll to bottom after messages load
+      // Only trigger notifications for new messages after initial load
+      if (!isFirstLoad.current) {
+        snapshot.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            const data = change.doc.data();
+            // Only notify if the message is from someone else
+            if (data.uid !== auth.currentUser?.uid) {
+              showBanner({
+                id: change.doc.id,
+                displayName: data.displayName || 'Anonymous',
+                text: data.text,
+              });
+            }
+          }
+        });
+      }
+
+      setMyMessages(loaded);
+      isFirstLoad.current = false;
+
       setTimeout(() => {
         flatListRef.current?.scrollToEnd({ animated: true });
       }, 100);
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      if (dismissTimer.current) clearTimeout(dismissTimer.current);
+    };
   }, []);
 
   // Scroll when keyboard shows
@@ -81,10 +158,8 @@ export default function ChatScreen() {
       roomId: 'global',
       createdAt: serverTimestamp(),
       createdAtLocal: Date.now() / 1000
-
     });
 
-    // Clear input and dismiss keyboard
     setMyInput('');
     inputRef.current?.clear();
     Keyboard.dismiss();
@@ -103,7 +178,31 @@ export default function ChatScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <CustomHeader />
-      
+
+      {/* In-app notification banner */}
+      {notification && (
+        <Animated.View
+          style={[
+            styles.banner,
+            {
+              opacity: bannerOpacity,
+              transform: [{ translateY: bannerTranslateY }],
+            },
+          ]}
+        >
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={hideBanner}
+            style={styles.bannerInner}
+          >
+            <Text style={styles.bannerName}>🔔 {notification.displayName}</Text>
+            <Text style={styles.bannerText} numberOfLines={1}>
+              {notification.text}
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+
       <KeyboardAvoidingView
         style={styles.keyboardView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -147,8 +246,8 @@ export default function ChatScreen() {
             returnKeyType="default"
             blurOnSubmit={false}
           />
-          <TouchableOpacity 
-            style={styles.send} 
+          <TouchableOpacity
+            style={styles.send}
             onPress={sendMessage}
             activeOpacity={0.7}
           >
@@ -167,6 +266,34 @@ const styles = StyleSheet.create({
   },
   keyboardView: {
     flex: 1,
+  },
+  banner: {
+    position: 'absolute',
+    top: 90, // sits just below CustomHeader
+    left: 12,
+    right: 12,
+    zIndex: 999,
+    borderRadius: 14,
+    backgroundColor: '#1c1c1e',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  bannerInner: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  bannerName: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#fff',
+    marginBottom: 2,
+  },
+  bannerText: {
+    fontSize: 14,
+    color: '#ccc',
   },
   flatListContent: {
     paddingBottom: 10,
