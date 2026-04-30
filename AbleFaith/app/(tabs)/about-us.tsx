@@ -174,37 +174,25 @@ export default function AboutUs() {
           <View style={styles.teamCard}>
             <View style={styles.headshotWrapper}>
               <Image
-                source={require('../../assets/images/about-us-images/Reena_Patel.png')}
+                source={require('../../assets/images/about-us-images/Brittany_Santos.png')}
                 style={styles.headshotImage}
                 resizeMode="contain"
               />
             </View>
-            <Text style={styles.personName}>Reena Patel</Text>
-            <Text style={styles.personRole}>Staff</Text>
+            <Text style={styles.personName}>Brittany Santos</Text>
+            <Text style={styles.personRole}>Executive Coordinator</Text>
           </View>
 
           <View style={styles.teamCard}>
             <View style={styles.headshotWrapper}>
               <Image
-                source={require('../../assets/images/about-us-images/Jim_Hemsworth.png')}
+                source={require('../../assets/images/about-us-images/Aaron_Akeman.png')}
                 style={styles.headshotImage}
                 resizeMode="contain"
               />
             </View>
-            <Text style={styles.personName}>Jim Hemsworth</Text>
-            <Text style={styles.personRole}>Staff</Text>
-          </View>
-
-          <View style={styles.teamCard}>
-            <View style={styles.headshotWrapper}>
-              <Image
-                source={require('../../assets/images/about-us-images/Deneen_Cavett.png')}
-                style={styles.headshotImage}
-                resizeMode="contain"
-              />
-            </View>
-            <Text style={styles.personName}>Deneen Cavett</Text>
-            <Text style={styles.personRole}>Staff</Text>
+            <Text style={styles.personName}>Aaron Akeman</Text>
+            <Text style={styles.personRole}>Neuro Exercise Specialist</Text>
           </View>
         </View>
 
@@ -220,7 +208,19 @@ export default function AboutUs() {
               />
             </View>
             <Text style={styles.personName}>Bethany Brown</Text>
-            <Text style={styles.personRole}>Co-Founder</Text>
+            <Text style={styles.personRole}></Text>
+          </View>
+
+          <View style={styles.teamCard}>
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Jim_Hemsworth.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.personName}>Jim Hemsworth</Text>
+            <Text style={styles.personRole}></Text>
           </View>
 
           <View style={styles.teamCard}>
@@ -233,6 +233,30 @@ export default function AboutUs() {
             </View>
             <Text style={styles.personName}>Jose Martinez</Text>
             <Text style={styles.personRole}>Co-Founder</Text>
+          </View>
+
+          <View style={styles.teamCard}>
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Riley_Sprowl.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.personName}>Riley Sprowl</Text>
+            <Text style={styles.personRole}>Co-Founder</Text>
+          </View>
+
+          <View style={styles.teamCard}>
+            <View style={styles.headshotWrapper}>
+              <Image
+                source={require('../../assets/images/about-us-images/Reena_Patel.png')}
+                style={styles.headshotImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.personName}>Reena Patel</Text>
+            <Text style={styles.personRole}></Text>
           </View>
 
           <View style={styles.teamCard}>
@@ -365,15 +389,19 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
+  // --- Shared grid for both Meet the Team and Our Board ---
   teamRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 10,
     marginBottom: 24,
   },
 
   teamCard: {
     alignItems: "center",
-    width: "30%",
+    flexBasis: "30%",
+    flexGrow: 1,
+    maxWidth: "31%",
     borderRadius: 12,
     overflow: "hidden",
     backgroundColor: "#f0f0f0",
@@ -398,15 +426,17 @@ const styles = StyleSheet.create({
   },
 
   personName: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "700",
     textAlign: "center",
+    paddingHorizontal: 4,
   },
 
   personRole: {
-    fontSize: 12,
+    fontSize: 10,
     textAlign: "center",
     color: "#444",
+    paddingHorizontal: 4,
   },
 
   sponsors: {
@@ -437,6 +467,7 @@ const styles = StyleSheet.create({
 
   testimonialsWrapper: {
     marginBottom: 40,
+    overflow: "hidden",
   },
 
   testimonialCard: {
@@ -527,13 +558,14 @@ const styles = StyleSheet.create({
 
   // About Us images (top row)
   aboutImageWrapper: {
-  flex: 1,
-  aspectRatio: 1.5, // keeps the box size
-  marginHorizontal: 4,
-  borderRadius: 12,
-  overflow: "hidden",
-  backgroundColor: "#f0f0f0", // optional background for letterbox
+    flex: 1,
+    aspectRatio: 1.5,
+    marginHorizontal: 4,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#f0f0f0",
   },
+
   aboutImage: {
     width: "100%",
     height: "100%",
